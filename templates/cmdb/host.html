@@ -1,0 +1,66 @@
+{%  extends '../base.html' %}
+{% block content %}
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">主机列表</span>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px;margin-right: 3px" href="{% url 'add_host' %}" title="添加主机" >添加主机</a>
+    </nav>
+    <div class="Hui-article">
+        <article class="cl pd-10">
+            <div class="col-lg-12">
+                <table class="table table-border table-bordered table-bg">
+                <thead>
+                    <tr><th colspan="9" scope="col">主机列表</th></tr>
+                <tr class="text-c">
+                    <th>ID</th>
+                    <th>主机名</th>
+                    <th>IP</th>
+                    <th>主机状态</th>
+                    <th>资产状态</th>
+                    <th>运维负责人</th>
+                    <th>机房</th>
+                    <th>创建时间</th>
+                    <th>备注</th>
+                </tr>
+		        </thead>
+                <tbody>
+                    {% for host in hosts_obj %}
+                        <tr class="text-c">
+                        <td>{{ host.id }}</td>
+                        <td>{{ host.host_name }}</td>
+                        <td>{{ host.ip }}</td>
+                        <td>{{ host.get_host_status_display }}</td>
+                        <td>{{ host.get_assets_stauts_display }}</td>
+                        <td>{{ host.opm_name }}</td>
+                        <td>{{ host.idc }}</td>
+                        <td>{{ host.time | date:"Y-m-d H:i:s" }}</td>
+                        <td>{{ host.remark }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+	        </table>
+            </div>
+        </article>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        function issue() {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "{% url 'file' %}",
+                data: $('#file_issue').serialize(),
+                success: function (result) {
+                    console.log(result);
+                    alert(result);
+                },
+                error: function () {
+                    alert("文件分发错误，请联系管理员！");
+                }
+            });
+        }
+    </script>
+{% endblock %}

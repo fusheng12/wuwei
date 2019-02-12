@@ -1,0 +1,142 @@
+{%  extends '../base.html' %}
+{% block content %}
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">文件分发</span>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <article class="cl pd-10">
+            <div class="col-lg-12 pd-20">
+                <form  class="form form-horizontal" action="##" method="post" id="file_issue" enctype="multipart/form-data">
+                    <div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">IP：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="ip" type="text" class="input-text" autocomplete="off" placeholder="192.168.1.12">
+						</div>
+					</div>
+                    <div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">需要分发的文件名：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="src_name" type="text" class="input-text" autocomplete="off" placeholder="上传的本地文件">
+						</div>
+					</div>
+                    <div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">目标文件夹：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="dst" type="text" class="input-text" autocomplete="off" placeholder="/root">
+						</div>
+					</div>
+                    <div class="row cl">
+						<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+							<input class="btn btn-primary radius" type="submit" value="提交">
+                            <input class="btn btn-primary radius" type="button" onclick="issue()" value="Ajax提交">
+						</div>
+					</div>
+                </form>
+            </div>
+
+        </article>
+        <article class="cl pd-10">
+            <div class="col-lg-12">
+                <div class="panel panel-success mt-20">
+                    <div class="panel-header">分发成功</div>
+                    <div class="panel-body">
+                        <table class="table table-border table-bordered table-hover">
+                            <thead>
+                            <tr class="text-c">
+                                <th>编号</th>
+                                <th>名称</th>
+                                <th>IP地址</th>
+                                <th>时间</th>
+                                <th>用户</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, file in file_dict.items %}
+                                    <tr class="text-c">
+                                    <td>{{ key }}</td>
+                                    {% for info in file %}
+                                        <td>{{ info }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-warning mt-20">
+                    <div class="panel-header">分发失败</div>
+                    <div class="panel-body">
+                        <table class="table table-border table-bordered table-hover">
+                            <thead>
+                            <tr class="text-c">
+                                <th>编号</th>
+                                <th>名称</th>
+                                <th>IP地址</th>
+                                <th>时间</th>
+                                <th>用户</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, file in file_dict.items %}
+                                    <tr class="text-c">
+                                    <td>{{ key }}</td>
+                                    {% for info in file %}
+                                        <td>{{ info }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="panel panel-danger mt-20">
+                    <div class="panel-header">连接失败</div>
+                    <div class="panel-body">
+                        <table class="table table-border table-bordered table-hover">
+                            <thead>
+                            <tr class="text-c">
+                                <th>编号</th>
+                                <th>名称</th>
+                                <th>IP地址</th>
+                                <th>时间</th>
+                                <th>用户</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, file in file_dict.items %}
+                                    <tr class="text-c">
+                                    <td>{{ key }}</td>
+                                    {% for info in file %}
+                                        <td>{{ info }}</td>
+                                    {% endfor %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </article>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        function issue() {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "{% url 'file' %}",
+                data: $('#file_issue').serialize(),
+                success: function (result) {
+                    console.log(result);
+                    alert(result);
+                },
+                error: function () {
+                    alert("文件分发错误，请联系管理员！");
+                }
+            });
+        }
+    </script>
+{% endblock %}

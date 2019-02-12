@@ -1,0 +1,51 @@
+{%  extends '../base.html' %}
+{% block content %}
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">文件上传</span>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <article class="cl pd-10">
+            <div class="col-lg-12 pd-20">
+                <form enctype="multipart/form-data" action="{% url 'upload' %}" method="post">
+                    <span class="btn-upload form-group">
+                        <input class="input-text upload-url radius" type="text" name="uploadfile-1" id="uploadfile-1" readonly>
+                        <a href="javascript:void();" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe642;</i> 浏览文件</a>
+                        <input type="file" multiple name="myfile" class="input-file">
+
+                    </span>
+                    <input class="btn btn-primary radius" type="submit" value="上传文件"/>
+                </form>
+            </div>
+            <div class="col-lg-12">
+                <table class="table table-border table-bordered table-bg">
+                <thead>
+                    <tr><th colspan="7" scope="col">历史文件</th></tr>
+                <tr class="text-c">
+                    <th>编号</th>
+                    <th>文件名</th>
+                    <th>大小</th>
+                    <th>时间</th>
+                    <th>用户</th>
+                </tr>
+		        </thead>
+                <tbody>
+                    {% for key, file in file_dict.items %}
+                        <tr class="text-c">
+                        <td>{{ key }}</td>
+                        {% for info in file %}
+                            <td>{{ info }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+	        </table>
+            </div>
+        </article>
+    </div>
+
+
+{% endblock %}
+
+
+

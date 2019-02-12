@@ -1,0 +1,90 @@
+{%  extends '../base.html' %}
+{% block content %}
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">主机列表</span>
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">添加主机</span>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+    <div class="Hui-article">
+        <article class="cl pd-10">
+            <div class="col-lg-12">
+                <form action="{% url 'add_host' %}" method="post" class="form form-horizontal" id="add_host">
+					<legend>添加主机</legend>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">主机名：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="hostname" type="text" class="input-text" autocomplete="off" placeholder="主机名">
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">IP：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="ip" type="text" class="input-text" autocomplete="off" placeholder="IP">
+						</div>
+					</div>
+                    <div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">运维负责人：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="ompname" type="text" class="input-text" autocomplete="off" placeholder="运维负责人">
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">资产状态：</label>
+						<div class="formControls col-xs-8 col-sm-9"> <span class="select-box">
+							<select class="select" size="1" name="assets_stauts">
+								<option value="0" selected="">在线</option>
+								<option value="1">测试</option>
+								<option value="2">闲置</option>
+								<option value="3">保修</option>
+							</select>
+							</span> </div>
+					</div>
+                    <div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">机房：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="idc" type="text" class="input-text" autocomplete="off" placeholder="机房">
+						</div>
+					</div>
+                    <div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">root密码：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<input name="passwd" type="password" class="input-text" autocomplete="off" placeholder="root密码">
+						</div>
+					</div>
+					<div class="row cl">
+						<label class="form-label col-xs-4 col-sm-3">备注：</label>
+						<div class="formControls col-xs-8 col-sm-9">
+							<textarea class="textarea" placeholder="..." rows="" cols="" name="remark"></textarea>
+						</div>
+					</div>
+					<div class="row cl">
+						<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+							<input class="btn btn-primary radius" type="submit" value="提交">
+						</div>
+					</div>
+				</form>
+            </div>
+        </article>
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        function issue() {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "{% url 'file' %}",
+                data: $('#file_issue').serialize(),
+                success: function (result) {
+                    console.log(result);
+                    alert(result);
+                },
+                error: function () {
+                    alert("文件分发错误，请联系管理员！");
+                }
+            });
+        }
+    </script>
+{% endblock %}
