@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 # -*- coding: utf8 -*-
-
+import os
 import json
 from collections import namedtuple
-from ansible.parsing.dataloader import DataLoader
-from ansible.vars.manager import VariableManager
-from ansible.inventory.manager import InventoryManager
 from ansible.playbook.play import Play
-from ansible.executor.task_queue_manager import TaskQueueManager
 from tempfile import NamedTemporaryFile
+from ansible.vars.manager import VariableManager
+from ansible.parsing.dataloader import DataLoader
 from ansible.plugins.callback import CallbackBase
-import os
+from ansible.inventory.manager import InventoryManager
+from ansible.executor.task_queue_manager import TaskQueueManager
+
+from cmdb import models
+
 
 
 class MyRunner(object):
@@ -78,12 +80,14 @@ class MyRunner(object):
                 # stdout_callback=self.callback,
             )
             tqm._stdout_callback = self.callback
-            result = tqm.run(play)
-            # print result
-        # print self.callback
+            result = tqm.run(play) # 跟执行结果无关
+
+
         finally:
             if tqm is not None:
                 tqm.cleanup()
+            # 操作记录 将数据对象封装到self
+            self.record_obj = models.Record.objects.create(hosts=host_list, module=module_name, module_args=module_args)
 
     # def run_playbook(self, host_list, role_name, role_uuid, temp_param):
     #     """
@@ -130,7 +134,12 @@ class MyRunner(object):
         for host, result in self.callback.host_unreachable.items():
             self.results_raw['unreachable'][host] = result._result['msg']
 
-            # print "Ansible执行结果集:%s"%self.results_raw
+        # 更新命令执行结果
+        # print('record_obj', self.record_obj.hosts, self.record_obj.time)
+        self.record_obj.result = json.dumps(self.results_raw)
+        self.record_obj.save()
+
+        # print "Ansible执行结果集:%s"%self.results_raw
         return self.results_raw
 
 

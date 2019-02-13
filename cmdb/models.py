@@ -16,3 +16,14 @@ class Host(models.Model):
 
     def __unicode__(self):
         return self.host_name
+
+class Record(models.Model):
+    '''操作记录表'''
+    hosts =  models.TextField(null=False)
+    module = models.CharField(max_length=32, null=False)
+    module_args = models.CharField(max_length=128)
+    result = models.TextField(default="")
+    time = models.DateTimeField(default=timezone.now)
+
+    def __unicode__(self):
+        return self.hosts

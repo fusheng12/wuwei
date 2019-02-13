@@ -1,6 +1,6 @@
 from cmdb import models
 from django.http import HttpResponse
-# from ansible_api.ans_api import MyRunner
+from ansible_api.ans_api import MyRunner
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required   # 用户登录
 
@@ -29,17 +29,17 @@ def add_host(request):
         ip = request.POST['ip']
         ssh_key = os.system(copy_key)
 
-        # if ssh_key == 0:
+        if ssh_key == 0:
             # 调用ansible api
-            # ansible = MyRunner(ip + ',')
-            # ansible.run(ip + ',', 'ping', '')
-            # result = ansible.get_result()
-            # if ip in json.dumps(result['success']):
-            #     host_obj.host_status=0
-            #     print("%s is ok!" % ip)
-            # else:
-            #     print("ping loss!")
+            ansible = MyRunner(ip + ',')
+            ansible.run(ip + ',', 'ping', '')
+            result = ansible.get_result()
+            if ip in json.dumps(result['success']):
+                host_obj.host_status=0
+                print("%s is ok!" % ip)
+            else:
+                print("ping loss!")
 
-        # host_obj.save()
+        host_obj.save()
         return redirect("/cmdb/host")
     return render(request, "cmdb/add_host.html",)

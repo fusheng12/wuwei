@@ -1,6 +1,6 @@
 import os
 
-# from ansible_api.ans_api import MyRunner
+from ansible_api.ans_api import MyRunner
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from file_issue.common import file_info
@@ -55,11 +55,11 @@ def file(request):
                 print(ip, src_name, dst)
 
                 # 调用ansible api
-                # ansible = MyRunner(ip + ',')
+                ansible = MyRunner(ip + ',')
                 # 结果
-                # ansible.run(ip + ',', 'copy', 'src=%s%s dest=%s' % (path, src_name, dst))
-                # result = ansible.get_result()
-                # print(result)
+                ansible.run(ip + ',', 'copy', 'src=%s%s dest=%s' % (path, src_name, dst))
+                result = ansible.get_result()
+                print(result)
                 return HttpResponse("Files %s issue Success!\n" % src_name)
 
             else:
