@@ -16,7 +16,9 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.urls import path
+from cmdb.views import host
 from users import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'issue/', include("file_issue.urls")),
@@ -24,5 +26,5 @@ urlpatterns = [
     url(r'users/', include("users.urls")),
     url(r'^users/', include('django.contrib.auth.urls')),
     url(r'^index', views.index, name='index'),
-    url(r'^$', views.index, name='index')
+    url(r'^$', host, name='home')
 ]
