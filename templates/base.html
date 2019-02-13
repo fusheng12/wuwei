@@ -29,6 +29,10 @@
 <title>无为</title>
 <meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+<style>
+    {% block my_style %}
+    {% endblock %}
+</style>
 </head>
 <body>
 <!--_header 作为公共模版分离出去-->
@@ -99,10 +103,10 @@
 	        </dd>
         </dl>
 		<dl id="menu-picture">
-			<dt><i class="Hui-iconfont">&#xe613;</i> 图片管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+			<dt><i class="Hui-iconfont">&#xe637;</i> 任务管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
 			<dd>
 				<ul>
-					<li><a href="picture-list.html" title="图片管理">图片管理</a></li>
+					<li><a href="{% url 'record' %}" title="操作记录">操作记录</a></li>
 		</ul>
 	</dd>
 </dl>

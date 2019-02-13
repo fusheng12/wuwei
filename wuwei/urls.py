@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'cmdb/', include("cmdb.urls")),
     url(r'users/', include("users.urls")),
     url(r'^users/', include('django.contrib.auth.urls')),
+    url(r'task/', include("task.urls")),
     url(r'^index', views.index, name='index'),
     url(r'^$', host, name='home')
 ]

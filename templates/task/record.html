@@ -1,0 +1,59 @@
+{%  extends '../base.html' %}
+{% block my_style %}
+    table {
+        table-layout: fixed;
+        width="100%";
+    }
+    td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+{% endblock %}
+
+{% block content %}
+    <nav class="breadcrumb"><i class="Hui-iconfont"></i> <a href="/" class="maincolor">首页</a>
+        <span class="c-999 en">&gt;</span>
+        <span class="c-666">操作记录</span>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
+        <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px;margin-right: 3px" href="{% url 'add_host' %}" title="添加主机" >添加主机</a>
+    </nav>
+    <div class="Hui-article">
+        <article class="cl pd-10">
+            <div class="col-lg-12">
+                <table class="table table-border table-bordered table-bg">
+                <thead>
+                    <tr><th colspan="9" scope="col">操作记录</th></tr>
+                <tr class="text-c">
+                    <th>ID</th>
+                    <th>HOSTS</th>
+                    <th>模块</th>
+                    <th>参数</th>
+                    <th>结果</th>
+                    <th>执行时间</th>
+                </tr>
+		        </thead>
+                <tbody>
+                    <col style="width: 5%" />
+                    <col style="width: 20%" />
+                    <col style="width: 10%" />
+                    <col style="width: 20%" />
+                    <col style="width: 35%" />
+                    <col style="width: 10%" />
+                    {% for record in record_objs %}
+                        <tr class="text-c">
+                        <td><a href="{% url 'details' record.id %}">{{ record.id }}</a></td>
+                        <td>{{ record.hosts }}</td>
+                        <td>{{ record.module }}</td>
+                        <td>{{ record.module_args }}</td>
+                        <td>{{ record.result }}</td>
+                        <td>{{ record.time | date:"Y-m-d H:i:s" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+	        </table>
+            </div>
+        </article>
+    </div>
+{% endblock %}
